@@ -1,0 +1,41 @@
+ public int[] mergeSort(int[] input) {
+ 	if (input.length == 0 || input == null) {
+ 		return null;
+ 	}
+ 	int[] temp = new int[input.length];
+ 	mergeSort(input, temp, 0, input.length - 1);
+ 	
+ 	return input;
+ }
+
+ private void mergeSort(int[] input, int[] temp, int i, int j) {
+ 	if (i == j) {
+ 		return;
+ 	} else {
+ 		mergeSort(input, temp, i, i + (j - i)/2);
+ 		mergeSort(input, temp, i + (j - i)/2 + 1, j);
+ 		combine(input, temp, i, j);
+ 	}
+ }
+
+ private void combine(int[] input, int[] temp, int i , int j) {
+ 	int count = i;
+ 	int front = i;
+ 	int back = i + (j - i)/2 + 1;
+ 	while (front <= i + (j - i)/2 && back <= j) {
+ 		if (input[front] <= input[back]) {
+ 			temp[count++] = input[front++];
+ 		} else {
+ 			temp[count++] = input[back++];
+ 		}
+ 	}
+ 	while (front <= i + (j - i)/2) {
+ 		temp[count++] = input[front++];
+ 	}
+ 	while (back <= j) {
+ 		temp[count++] = input[back++];
+ 	}
+ 	while (i <= j) {
+ 		input[i] = temp[i++];
+ 	}
+ }

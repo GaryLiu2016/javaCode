@@ -1,0 +1,55 @@
+
+public void testNode() {
+	ListNode l1 = new ListNode(1);
+	ListNode l2 = new ListNode(2);
+	ListNode l3 = new ListNode(3);
+	ListNode l4 = new ListNode(4);
+	ListNode l5 = new ListNode(5);
+	l1.next = l2;
+	l2.next = l3;
+	l3.next = l4;
+	l4.next = l5;
+	printList(l1);
+	printList(reverseKGroup(l1, 3));
+}
+
+private void printList(ListNode head) {
+	while (head != null) {
+		System.out.print(head.val + " -> ");
+	}
+	System.out.print("tail");
+}
+
+public ListNode reverseKGroup(ListNode head, int k) {
+    ListNode begin;
+    if (head==null || head.next ==null || k==1)
+    	return head;
+    ListNode dummyhead = new ListNode(-1);
+    dummyhead.next = head;
+    begin = dummyhead;
+    int i=0;
+    while (head != null){
+    	i++;
+    	if (i%k == 0){
+    		begin = reverse(begin, head.next);
+    		head = begin.next;
+    	} else {
+    		head = head.next;
+    	}
+    }
+    return dummyhead.next;
+    
+}
+
+
+private ListNode reverseSequence(ListNode begin, ListNode end) {
+	ListNode prev = begin.next;
+	while (prev.next != end) {
+		ListNode temp = prev.next;
+		prev.next = temp.next;
+		temp.next = begin.next;
+		begin.next = temp;
+	}
+	begin = prev;
+	return begin;
+}

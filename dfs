@@ -1,0 +1,102 @@
+//Recursive
+    public void preOrderTraversal(TreeNode root) {
+        if (root != null) {
+            System.out.print(root.val);
+            preOrderTraversal(root.left);
+            preOrderTraversal(root.right);
+        }
+    }
+
+    public void inOrderTraversal(TreeNode root) {
+        if (root != null) {
+            inOrderTraversal(root.left);
+            System.out.print(root.val);
+            inOrderTraversal(root.right);
+        }
+    }
+
+    public void postOrderTraversal(TreeNode root) {
+        if (root != null) {
+            postOrderTraversal(root.left);
+            postOrderTraversal(root.right);
+            System.out.print(root.val);
+        }
+    }
+
+    //Iterative
+    public void preOrderTraversal1(TreeNode root) {
+        Deque<TreeNode> st = new LinkedList<>();
+        st.push(root);
+        while (!st.isEmpty()) {
+            TreeNode temp = st.pop();
+            System.out.print(temp.val);
+            if (temp.right != null) {
+                st.push(temp.right);
+            }
+            if (temp.left != null) {
+                st.push(temp.left);
+            }
+        }
+    }
+
+    public void inOrderTraversal1(TreeNode root) {
+
+        if (root == null) {
+            return;
+        }
+        Deque<TreeNode> st = new LinkedList<>();
+        TreeNode temp = root;
+        while (temp != null) {
+            st.push(temp);
+            temp = temp.left;
+        }
+
+        while (!st.isEmpty()) {
+            TreeNode temp2 = st.pop();
+            System.out.print(temp2.val);
+
+            if (temp2.right != null) {
+                temp2 = temp2.right;
+                while (temp2 != null) {
+                    st.push(temp2);
+                    temp2 = temp2.left;
+                }
+            }
+        }
+    }
+
+    public void postOrderTraversal1(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        Deque<TreeNode> st = new LinkedList<>();
+        st.push(root);
+        TreeNode prev = null;
+
+        while (!st.isEmpty()) {
+            TreeNode current = st.peek();
+
+            if (prev == null || prev.left == current || prev.right == current) {
+                if (current.left != null) {
+                    st.push(current.left);
+                } else if (current.right != null) {
+                    st.push(current.right);
+                } else {
+                    st.pop();
+                    System.out.print(current.val);
+                }
+            } else if (current.left == prev) {
+                if (current.right != null) {
+                    st.push(current.right);
+                } else {
+                    st.pop();
+                    System.out.print(current.val);
+                }
+            } else if (current.right == prev) {
+                st.pop();
+                System.out.print(current.val);
+            }
+            prev = current;
+        }
+    }

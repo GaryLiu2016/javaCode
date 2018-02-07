@@ -1,0 +1,16 @@
+public TreeNode findNext(TreeNode target) {
+	if (target.right != null) {
+		target = target.right;
+		while (target.left != null) {
+			target = target.left;
+		}
+		return target;
+	} else {
+		parent = target.parent;
+		while (parent != null && parent.right == target) {
+			target = parent;
+			parent = parent.parent;
+		}
+		return parent;
+	}
+}

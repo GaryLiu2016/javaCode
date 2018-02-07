@@ -1,0 +1,4 @@
+getlogger(Food.class.getName)
+
+getClass() Food.getClass() Food.class
+

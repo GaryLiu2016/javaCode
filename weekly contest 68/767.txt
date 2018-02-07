@@ -1,0 +1,74 @@
+767. Reorganize String My SubmissionsBack to Contest
+User Accepted: 610
+User Tried: 986
+Total Accepted: 810
+Total Submissions: 2581
+Difficulty: Medium
+Given a string S, check if the letters can be rearranged so that two characters that are adjacent to each other are not the same.
+
+If possible, output any possible result.  If not possible, return the empty string.
+
+Example 1:
+
+Input: S = "aab"
+Output: "aba"
+Example 2:
+
+Input: S = "aaab"
+Output: ""
+Note:
+
+S will consist of lowercase letters and have length in range [1, 500].
+
+class Solution {
+    public String reorganizeString(String S) {
+        StringBuilder sb = new StringBuilder();
+        if (S == null || S.length() == 0) {
+            return sb.toString();
+        }
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < S.length(); i++) {
+            int count = map.getOrDefault(S.charAt(i), 0) + 1;
+            if (count > (S.length() + 1) / 2) {         // quit if one character is more than half of the string
+                return "";
+            }
+            map.put(S.charAt(i), count);
+        }
+        PriorityQueue<Num> pq = new PriorityQueue<>();
+        // PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) => b[1] - a[1]);
+        for (char c: map.keySet()) {
+            pq.add(new Num(c, map.get(c)));
+        }
+        while (!pq.isEmpty() && sb.length() < S.length()) {
+            Num first = pq.poll();
+            if (sb.length() == 0 || first.c - sb.charAt(sb.length() - 1) != 0) {
+                sb.append(first.c);
+                if (--first.count > 0) {
+                    pq.add(first);
+                }
+            } else {
+                Num second = pq.poll();
+                sb.append(second.c);
+                if (--second.count > 0) {
+                    pq.add(second);
+                }
+                pq.add(first);
+            }
+        }
+        return sb.toString();
+    }
+    
+    private class Num implements Comparable<Num> {
+        char c;
+        int count;
+        
+        public Num(char c, int count) {
+            this.c = c;
+            this.count = count;
+        }
+        
+        public int compareTo(Num that) {
+            return that.count - this.count;
+        }
+    }
+}

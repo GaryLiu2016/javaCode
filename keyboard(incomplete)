@@ -1,0 +1,63 @@
+public int password(int m, int n) {
+        int[] count = new int[1];
+        boolean[][] visited = new boolean[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                visited[i][j] = true;
+                dfs(visited, i, j, count, m, n, 1);
+                visited[i][j] = false;
+            }
+        }
+        return count[0];
+
+    }
+
+    private void dfs(boolean[][] visited, int x, int y, int[] count, int m, int n, int level) {
+        if (level == n) {
+            count[0]++;
+            return;
+        }
+        if (level >= m && level < n) {
+            count[0]++;
+        }
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (!visited[i][j]){
+                    if (x + 2 != i || !visited[i + 1][j]) {
+                        visited[i][j] = true;
+                        dfs(visited, i, j, count, m, n, level + 1);
+                        visited[i][j] = false;
+                    }
+                    //if (x - 2)
+                }
+            }
+        }
+    }
+
+    public boolean repeatedSubstringPattern(String str) {
+        char[] arr = str.toCharArray();
+        int right = 1, end = -1;
+        boolean flag = false;
+        while (right < arr.length) {
+            if (!flag) {
+                if (arr[right] == arr[0]) {
+                    end = right - 1;
+                    flag = true;
+                }
+                right++;
+
+            } else {
+                if (arr[right] != arr[right % (end + 1)]) {
+                    flag = false;
+                }
+                right++;
+
+            }
+        }
+        if (flag && right % (end + 1) == 0 ) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }

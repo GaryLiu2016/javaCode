@@ -1,0 +1,27 @@
+public int depthSumInverse(List<NestedInteger> nestedList) {
+	if (nestedList == null || nestedList.isEmpty()) {
+		return 0;
+	}
+	List<Integer> cache = new ArrayList<>();
+	cache.add(0);
+	helper(cache, 1, nestedList);
+	int sum = 0;
+	for (int i = 0; i < cache.size(); i++) {
+		sum += cache.get(i) * (cache.size() - i);
+	}
+	return sum;
+}
+
+private void helper(List<Integer> cache, int d, List<NestedList> nestedList) {
+	if (cache.size() < d) {
+		cache.add(0);
+	}
+	for (NestedList nl : nestedList) {
+		if (nl.isInteger()) {
+			cache.get(d - 1) = new Integer(cache.get(d - 1) + nl.getInteger());
+		} else {
+			helper(cache, d + 1, nestedList.getList()));
+		}
+
+	}
+}

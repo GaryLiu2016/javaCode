@@ -1,0 +1,72 @@
+public int[] quickSort(int[] input) {
+    if (input.length == 0 || input == null) {
+            return null;
+        }
+        quickSort(input, 0, input.length - 1);
+        return input;
+    }
+
+    private void quickSort(int[] input, int i, int j) {
+        if (i < j) {
+            int q = partition(input, i, j);
+            quickSort(input, i, q - 1);
+            quickSort(input, q + 1, j);
+        }
+    }
+
+    private int partition(int[] input, int start, int end) {
+        int p = input[end];
+
+        int i = start - 1;
+        for (int j = start; j <= end - 1; j++) {
+            if (input[j] <= p) {
+                i++;
+                exchange(input, i, j);
+            }
+        }
+        exchange(input, i + 1, end);
+        return i + 1;
+
+    }
+
+    private int partition2(int[] input, int start, int end) {
+    	int ran = (int)(start + Math.random() * (end - start + 1));
+        exchange(input, ran, end);
+
+        int i = start;
+        int j = end - 1;
+        while (i < j) {
+        	if (input[i] <= input[end]) {
+        		i++;
+        	} else {
+        		exchange(input, i, j);
+        		j--;
+        	}
+        	if (input[j] >= input[end]) {
+        		j--;
+        	} else {
+        		exchange(input, i, j);
+        		i++;
+        	}
+        }
+        if (input[i] <= input[end]) {
+        	exchange(input, i + 1, end);
+        	return i + 1;
+        } else {
+        	exchange(input, i, end);
+        	return i;
+        }
+    }
+
+    private void exchange(int[] input, int i, int j) {
+        int temp = input[i];
+        input[i] = input[j];
+        input[j] = temp;
+    }
+
+    public static void main(String args[]) {
+
+        System.out.println(Arrays.toString(new FizzBuzz().quickSort(new int[] { 4, 6, 2, -1, 7, -100, 0, 9 })));
+    }
+}
+

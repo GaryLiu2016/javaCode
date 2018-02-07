@@ -1,0 +1,50 @@
+public List<TreeNode> afterDelete(TreeNode root) { // 这个是主函数，返回所有单独根节点的List
+        List<TreeNode> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Set<TreeNode> rootList = new HashSet<>();   // 用set存储目前的所有单独根节点
+        rootList.add(root);
+        dfs(root, rootList);            // 递归调用dfs查找需要删除的节点以及维护树的结构
+        res = new ArrayList<>(rootList);
+        for (TreeNode cur : res)        // 由于测试输出
+            System.out.println(cur.val);
+        return res;
+    }
+
+    private void dfs(TreeNode root, Set<TreeNode> rootList) {
+        if (shouldDelete(root)) {       // 如果根节点需要删除
+            if (rootList.contains(root)) {      // 如果set里有该根节点，从set里删除
+                rootList.remove(root);
+            }
+            if (root.left != null) {        // 将该节点的非空子节点加入set
+                rootList.add(root.left);
+            }
+            if (root.right != null) {
+                rootList.add(root.right);
+            }
+        }
+
+        if (root.left != null) {        // 遍历至非空左子节点
+            dfs(root.left, rootList);
+            if (shouldDelete(root.left)) {  // 遍历完左子节点后，如果左子节点需要删除，则将该路径删除
+                root.left = null;
+            }
+        }
+
+        if (root.right != null) {       // 遍历至非空右子节点，同上
+            dfs(root.right, rootList);
+            if (shouldDelete(root.right)) {
+                root.right = null;
+            }
+        }
+
+    }
+
+    private boolean shouldDelete(TreeNode root) {
+        int val = root.val;
+        if (val == 3 || val == 8 || val == 9 || val == 7) {
+            return true;
+        }
+        return false;
+    }

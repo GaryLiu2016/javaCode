@@ -1,0 +1,19 @@
+public int sqrt(int n) {
+	if (n == 0) {
+		return 0;
+	}
+	if (n == 1) {
+		return 1;
+	}
+	int left = 0, right = n / 2;
+	while (left < right) {
+		int mid = left + (right - left) / 2;
+		if (mid * mid == n) {
+			return mid;
+		} else (mid * mid < n) {
+			left = mid;
+		} else {
+			right = mid - 1;
+		}
+	}
+}

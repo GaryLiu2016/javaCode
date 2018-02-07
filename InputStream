@@ -1,0 +1,7 @@
+// scanner input break with empty line
+
+Scanner sc = new Scanner(System.in);
+String strLine;
+while (!(strLine = sc.nextLine()).equals("")) {
+	System.out.println(strLine);
+}

@@ -1,0 +1,54 @@
+public int[] removeDuplicate(int[] input) {
+        /**	Implemented by stack **/
+        if (input.length == 0 || input == null) {
+            return null;
+        }
+        Stack<Integer> st = new Stack<Integer>();
+        for (int i = 0; i < input.length; i++) {
+            if (st.empty()) {
+                st.push(input[i]);
+            } else if (st.peek() != input[i]) {
+                st.push(input[i]);
+            } else {
+                if(i + 1 < input.length) {
+                    while (input[i + 1] == input[i]) {
+                        i++;
+                    }
+                }
+                st.pop();
+            }
+        }
+        int[] result = new int[st.size()];
+        int i = 0;
+        while(!st.empty()) {
+            result[i++] = st.pop();
+        }
+        for (i = 0; i < result.length / 2; i++) {
+            exchange(result, i, result.length - i - 1);
+        }
+        return result;
+    }
+
+public int[] removeDuplicate1(int[] input) {
+    /** Implemented by array **/
+        if (input == null || input.length == 0) {
+            return null;
+        }
+        int i = 0;
+        for (int j = 0; j < input.length; j++) {
+            if (i == 0 || input[j] != input[i - 1]) {
+                input[i++] = input[j];
+            } else {
+                while (j < input.length && input[j] == input[i - 1]) {
+                    j++;
+                }
+                j--;
+                i--;
+            }
+        }
+
+        System.out.println(i);
+        int[] result = Arrays.copyOf(input, i);
+        return result;
+    }
+
